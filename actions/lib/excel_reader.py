@@ -35,9 +35,6 @@ class ExcelReader(object):
         self._data_start_row = -1
         self._data_end_row = -1
 
-        if not os.path.isfile(self._filename):
-            raise ValueError('File "%s" doesn\'t exist' % (self._filename))
-
         if lock:
             # is file already locked?
             attempts = 0
@@ -178,7 +175,7 @@ class ExcelReader(object):
         row = self.get_row_for_key(key)
         while row >= 0 and col <= self._variable_end_column:
             variable = self._ws.cell(column=col, row=self._var_name_row)
-            if variable.value:
+            if variable.value and self._ws.cell(column=col, row=row).value:
                 variables[variable.value] = self._ws.cell(column=col,
                                                           row=row).value
             col += 1
