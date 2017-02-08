@@ -28,6 +28,7 @@ class GetExcelVariablesAction(excel_action.ExcelAction):
 
         vfk = excel.get_variables_for_key(key)
         if variables == '[]':  # default
+            vfk['key'] = key
             return vfk
 
         variables = json.loads(variables)
@@ -35,5 +36,6 @@ class GetExcelVariablesAction(excel_action.ExcelAction):
         for var_name in variables:
             if var_name in vfk:
                 filtered[var_name] = vfk[var_name]
+            filtered['key'] = key
 
         return filtered
